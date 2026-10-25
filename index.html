@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Korean Learning Hub</title>
+  <title>Korean Study Dashboard</title>
   <style>
     :root {
       --primary-color: #4a90e2;
@@ -17,298 +17,108 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       margin: 0;
-      padding: 20px;
+      padding: 0;
     }
 
     header {
-      text-align: center;
-      padding: 20px;
-      background-color: var(--primary-color);
-      color: white;
-      border-radius: 8px;
-      margin-bottom: 20px;
+      background-color: var(--card-bg);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
+    header a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-left: 15px;
+    }
+
+    .main-container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
+      margin-bottom: 30px;
     }
 
     .card {
       background-color: var(--card-bg);
       border-radius: 8px;
       padding: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 
-    h2 {
+    .card h2 {
       margin-top: 0;
       color: var(--primary-color);
+      font-size: 1.3rem;
     }
 
-    /* Vocabulary Table */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #eef4fb;
-    }
-
-    /* Flashcard Widget */
-    .flashcard-box {
-      text-align: center;
-      padding: 30px;
-      background-color: #eef4fb;
-      border-radius: 8px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .flashcard-text {
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-
-    .flashcard-subtext {
-      font-size: 1rem;
-      color: #666;
-      margin-top: 10px;
-    }
-
-    /* Handwriting Canvas */
-    .canvas-container {
-      text-align: center;
-      position: relative;
-    }
-
-    canvas {
-      border: 2px dashed #4a90e2;
-      border-radius: 8px;
-      background-color: #fafbfc;
-      touch-action: none; /* Prevents scrolling while writing on mobile/tablet */
-      cursor: crosshair;
-      width: 100%;
-      max-width: 400px;
-      height: 250px;
-    }
-
-    .btn {
+    .btn-link {
       display: inline-block;
       margin-top: 15px;
-      padding: 10px 20px;
+      padding: 10px 15px;
       background-color: var(--primary-color);
       color: white;
-      border: none;
+      text-decoration: none;
       border-radius: 5px;
-      cursor: pointer;
-      font-size: 1rem;
+      font-weight: 600;
     }
 
-    .btn:hover {
+    .btn-link:hover {
       background-color: #357abd;
-    }
-
-    .btn-secondary {
-      background-color: #e0e0e0;
-      color: #333;
-    }
-
-    .btn-secondary:hover {
-      background-color: #d0d0d0;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>한국어 공부 노트 (Korean Study Hub)</h1>
-    <p>Vocabulary, Flashcards & Handwriting Practice</p>
+    <a href="index.html" style="font-size: 1.2rem; margin-left: 0;">🇰🇷 Korean Learning Hub</a>
+    <div>
+      <a href="index.html">Dashboard</a>
+      <a href="practice.html">Study & Practice</a>
+    </div>
   </header>
 
-  <div class="container">
+  <div class="main-container">
+    <h1>Hi there, Ly Kaing!</h1>
+    <p class="subtitle">Welcome back to your personal Korean study dashboard.</p>
 
-    <!-- Interactive Flashcard Section -->
-    <div class="card">
-      <h2>Interactive Flashcard</h2>
-      <div class="flashcard-box" id="flashcard" onclick="toggleCard()">
-        <div class="flashcard-text" id="cardFront">안녕하세요</div>
-        <div class="flashcard-subtext" id="cardBack" style="display:none;">Hello / Peace</div>
+    <div class="grid">
+      <!-- Quick Navigation Card -->
+      <div class="card">
+        <h2>Interactive Practice</h2>
+        <p>Review flashcards, check vocabulary lists, and practice your handwriting with a stylus.</p>
+        <a href="practice.html" class="btn-link">Open Practice Hub →</a>
       </div>
-      <div style="text-align:center;">
-        <button class="btn" onclick="nextCard()">Next Card</button>
-      </div>
-    </div>
 
-    <!-- Handwriting Practice Section -->
-    <div class="card">
-      <h2>Handwriting Practice (글씨 쓰기)</h2>
-      <p>Use your stylus or finger to practice writing Korean characters below:</p>
-      <div class="canvas-container">
-        <canvas id="drawCanvas"></canvas>
+      <!-- Stats Card Placeholder -->
+      <div class="card">
+        <h2>Study Progress</h2>
+        <p>Track your daily words, study streaks, and master new vocabulary over time.</p>
+        <p style="font-weight: bold; color: #4a90e2; margin-top: 15px;">Status: Active 🚀</p>
       </div>
-      <div style="text-align:center;">
-        <button class="btn btn-secondary" onclick="clearCanvas()">Clear Board</button>
-      </div>
-    </div>
-
-    <!-- Vocabulary Section -->
-    <div class="card">
-      <h2>Vocabulary List (어휘)</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Korean (한국어)</th>
-            <th>Meaning (뜻)</th>
-            <th>Example (예문)</th>
-          </tr>
-        </thead>
-        <tbody id="vocabTable">
-          <tr>
-            <td>공부하다</td>
-            <td>To study</td>
-            <td>매일 한국어를 공부해요.</td>
-          </tr>
-          <tr>
-            <td>학교</td>
-            <td>School</td>
-            <td>내일 학교에 가요.</td>
-          </tr>
-          <tr>
-            <td>친구</td>
-            <td>Friend</td>
-            <td>친구를 만나요.</td>
-          </tr>
-          <tr>
-            <td>도서관</td>
-            <td>Library</td>
-            <td>도서관에서 책을 읽어요.</td>
-          </tr>
-          <tr>
-            <td>사전</td>
-            <td>Dictionary</td>
-            <td>단어를 사전에 찾아봐요.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Useful Study Links -->
-    <div class="card">
-      <h2>Study Resources</h2>
-      <ul>
-        <li><a href="https://dict.naver.com" target="_blank">Naver Dictionary</a></li>
-        <li><a href="https://sejonghakdang.org" target="_blank">King Sejong Institute</a></li>
-      </ul>
     </div>
 
   </div>
-
-  <script>
-    // Flashcard Deck (Add more words here anytime!)
-    const deck = [
-      { kr: "안녕하세요", en: "Hello / Peace" },
-      { kr: "감사합니다", en: "Thank you" },
-      { kr: "학생", en: "Student" },
-      { kr: "선생님", en: "Teacher" },
-      { kr: "도서관", en: "Library" },
-      { kr: "사전", en: "Dictionary" }
-    ];
-
-    let currentIndex = 0;
-    let showingFront = true;
-
-    function toggleCard() {
-      const back = document.getElementById('cardBack');
-      if (showingFront) {
-        back.style.display = 'block';
-      } else {
-        back.style.display = 'none';
-      }
-      showingFront = !showingFront;
-    }
-
-    function nextCard() {
-      currentIndex = (currentIndex + 1) % deck.length;
-      document.getElementById('cardFront').innerText = deck[currentIndex].kr;
-      document.getElementById('cardBack').innerText = deck[currentIndex].en;
-      document.getElementById('cardBack').style.display = 'none';
-      showingFront = true;
-    }
-
-    // Handwriting Canvas Logic
-    const canvas = document.getElementById('drawCanvas');
-    const ctx = canvas.getContext('2d');
-
-    // Fix canvas resolution for sharpness
-    function resizeCanvas() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      ctx.lineWidth = 4;
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = '#333333';
-    }
-    window.addEventListener('load', resizeCanvas);
-    window.addEventListener('resize', resizeCanvas);
-
-    let isDrawing = false;
-
-    function getPos(e) {
-      const rect = canvas.getBoundingClientRect();
-      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-      return {
-        x: clientX - rect.left,
-        y: clientY - rect.top
-      };
-    }
-
-    function startDrawing(e) {
-      isDrawing = true;
-      const pos = getPos(e);
-      ctx.beginPath();
-      ctx.moveTo(pos.x, pos.y);
-      e.preventDefault();
-    }
-
-    function draw(e) {
-      if (!isDrawing) return;
-      const pos = getPos(e);
-      ctx.lineTo(pos.x, pos.y);
-      ctx.stroke();
-      e.preventDefault();
-    }
-
-    function stopDrawing() {
-      isDrawing = false;
-    }
-
-    // Mouse events
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseleave', stopDrawing);
-
-    // Touch events for tablets / mobile devices
-    canvas.addEventListener('touchstart', startDrawing);
-    canvas.addEventListener('touchmove', draw);
-    canvas.addEventListener('touchend', stopDrawing);
-
-    function clearCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-  </script>
 
 </body>
 </html>
