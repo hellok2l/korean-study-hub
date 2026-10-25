@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Korean Learning Hub</title>
+  <style>
+    :root {
+      --primary-color: #4a90e2;
+      --bg-color: #f4f7f6;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+
+    /* Vocabulary Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1fr solid #ddd;
+    }
+
+    th {
+      background-color: #eef4fb;
+    }
+
+    /* Flashcard Widget */
+    .flashcard-box {
+      text-align: center;
+      padding: 30px;
+      background-color: #eef4fb;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .flashcard-text {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .flashcard-subtext {
+      font-size: 1rem;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      background-color: #357abd;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>한국어 공부 노트 (Korean Study Hub)</h1>
+    <p>Daily Vocabulary & Flashcards</p>
+  </header>
+
+  <div class="container">
+
+    <!-- Interactive Flashcard Section -->
+    <div class="card">
+      <h2>Interactive Flashcard</h2>
+      <div class="flashcard-box" id="flashcard" onclick="toggleCard()">
+        <div class="flashcard-text" id="cardFront">안녕하세요</div>
+        <div class="flashcard-subtext" id="cardBack" style="display:none;">Hello / Peace</div>
+      </div>
+      <div style="text-align:center;">
+        <button class="btn" onclick="nextCard()">Next Card</button>
+      </div>
+    </div>
+
+    <!-- Vocabulary Section -->
+    <div class="card">
+      <h2>Vocabulary List (어휘)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Korean (한국어)</th>
+            <th>Meaning (뜻)</th>
+            <th>Example (예문)</th>
+          </tr>
+        </thead>
+        <tbody id="vocabTable">
+          <tr>
+            <td>공부하다</td>
+            <td>To study</td>
+            <td>매일 한국어를 공부해요.</td>
+          </tr>
+          <tr>
+            <td>학교</td>
+            <td>School</td>
+            <td>내일 학교에 가요.</td>
+          </tr>
+          <tr>
+            <td>친구</td>
+            <td>Friend</td>
+            <td>친구를 만나요.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Useful Study Links -->
+    <div class="card">
+      <h2>Study Resources</h2>
+      <ul>
+        <li><a href="https://dict.naver.com" target="_blank">Naver Dictionary</a></li>
+        <li><a href="https://sejonghakdang.org" target="_blank">King Sejong Institute</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    const deck = [
+      { kr: "안녕하세요", en: "Hello / Peace" },
+      { kr: "감사합니다", en: "Thank you" },
+      { kr: "학생", en: "Student" },
+      { kr: "선생님", en: "Teacher" },
+      { kr: "도서관", en: "Library" }
+    ];
+
+    let currentIndex = 0;
+    let showingFront = true;
+
+    function toggleCard() {
+      const back = document.getElementById('cardBack');
+      if (showingFront) {
+        back.style.display = 'block';
+      } else {
+        back.style.display = 'none';
+      }
+      showingFront = !showingFront;
+    }
+
+    function nextCard() {
+      currentIndex = (currentIndex + 1) % deck.length;
+      document.getElementById('cardFront').innerText = deck[currentIndex].kr;
+      document.getElementById('cardBack').innerText = deck[currentIndex].en;
+      document.getElementById('cardBack').style.display = 'none';
+      showingFront = true;
+    }
+  </script>
+
+</body>
+</html>
