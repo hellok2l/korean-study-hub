@@ -59,7 +59,7 @@
     th, td {
       text-align: left;
       padding: 10px;
-      border-bottom: 1fr solid #ddd;
+      border-bottom: 1px solid #ddd;
     }
 
     th {
@@ -87,6 +87,23 @@
       margin-top: 10px;
     }
 
+    /* Handwriting Canvas */
+    .canvas-container {
+      text-align: center;
+      position: relative;
+    }
+
+    canvas {
+      border: 2px dashed #4a90e2;
+      border-radius: 8px;
+      background-color: #fafbfc;
+      touch-action: none; /* Prevents scrolling while writing on mobile/tablet */
+      cursor: crosshair;
+      width: 100%;
+      max-width: 400px;
+      height: 250px;
+    }
+
     .btn {
       display: inline-block;
       margin-top: 15px;
@@ -102,13 +119,22 @@
     .btn:hover {
       background-color: #357abd;
     }
+
+    .btn-secondary {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background-color: #d0d0d0;
+    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>한국어 공부 노트 (Korean Study Hub)</h1>
-    <p>Daily Vocabulary & Flashcards</p>
+    <p>Vocabulary, Flashcards & Handwriting Practice</p>
   </header>
 
   <div class="container">
@@ -122,6 +148,18 @@
       </div>
       <div style="text-align:center;">
         <button class="btn" onclick="nextCard()">Next Card</button>
+      </div>
+    </div>
+
+    <!-- Handwriting Practice Section -->
+    <div class="card">
+      <h2>Handwriting Practice (글씨 쓰기)</h2>
+      <p>Use your stylus or finger to practice writing Korean characters below:</p>
+      <div class="canvas-container">
+        <canvas id="drawCanvas"></canvas>
+      </div>
+      <div style="text-align:center;">
+        <button class="btn btn-secondary" onclick="clearCanvas()">Clear Board</button>
       </div>
     </div>
 
@@ -152,6 +190,16 @@
             <td>Friend</td>
             <td>친구를 만나요.</td>
           </tr>
+          <tr>
+            <td>도서관</td>
+            <td>Library</td>
+            <td>도서관에서 책을 읽어요.</td>
+          </tr>
+          <tr>
+            <td>사전</td>
+            <td>Dictionary</td>
+            <td>단어를 사전에 찾아봐요.</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -168,12 +216,14 @@
   </div>
 
   <script>
+    // Flashcard Deck (Add more words here anytime!)
     const deck = [
       { kr: "안녕하세요", en: "Hello / Peace" },
       { kr: "감사합니다", en: "Thank you" },
       { kr: "학생", en: "Student" },
       { kr: "선생님", en: "Teacher" },
-      { kr: "도서관", en: "Library" }
+      { kr: "도서관", en: "Library" },
+      { kr: "사전", en: "Dictionary" }
     ];
 
     let currentIndex = 0;
@@ -195,6 +245,68 @@
       document.getElementById('cardBack').innerText = deck[currentIndex].en;
       document.getElementById('cardBack').style.display = 'none';
       showingFront = true;
+    }
+
+    // Handwriting Canvas Logic
+    const canvas = document.getElementById('drawCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Fix canvas resolution for sharpness
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#333333';
+    }
+    window.addEventListener('load', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
+
+    let isDrawing = false;
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    function startDrawing(e) {
+      isDrawing = true;
+      const pos = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      e.preventDefault();
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      const pos = getPos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      e.preventDefault();
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+    }
+
+    // Mouse events
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseleave', stopDrawing);
+
+    // Touch events for tablets / mobile devices
+    canvas.addEventListener('touchstart', startDrawing);
+    canvas.addEventListener('touchmove', draw);
+    canvas.addEventListener('touchend', stopDrawing);
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   </script>
 
