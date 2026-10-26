@@ -184,25 +184,35 @@ function listHTML(c){
  <p class="hint">One word per line: <b>한글, romanization, meaning</b> (romanization is optional: <b>한글, meaning</b>). You can also separate with | or a tab, so pasting from Excel or Google Sheets works.</p>
  <textarea id="bulk" class="bulk" lang="ko" placeholder="사과, sagwa, apple&#10;바나나, banana&#10;우유 | uyu | milk">${esc(bt)}</textarea>
  <div class="af"><button class="on" onclick="addBulk()">Add all words</button></div>
- <p class="hint" role="status">${bm}</p></div>
+ <p class="hint" role="status" id="bmsg">${bm}</p></div>
  <p class="hint"><button onclick="delCat()">Delete this tab</button></p>`;
 }
 function setCat(j){bm='';bt='';ci=j;i=0;flipped=false;order=[];q=null;render()}
 function addCat(){const n=(prompt('Name for the new tab (for example Food, Family, Colors):')||'').trim();if(!n)return;cats.push({n:esc(n),v:[]});ci=cats.length-1;cv='list';i=0;order=[];q=null;saveC();render()}
-function addWord(){const k=$('nk').value.trim(),e=$('ne').value.trim();if(!k||!e){$('nk').focus();return}cats[ci].v.push({k:esc(k),r:esc($('nr').value.trim()),e:esc(e)});order=[];saveC();render();$('nk').focus()}
+const dk=(k,e)=>k+'\u0001'+String(e).toLowerCase();
+function addWord(){const k=$('nk').value.trim(),e=$('ne').value.trim();if(!k||!e){$('nk').focus();return}
+ const K=esc(k),E=esc(e),v=cats[ci].v;
+ if(v.some(w=>dk(w.k,w.e)===dk(K,E))){bm=`${K} (${E}) is already in this tab, so it was not added.`;$('bmsg').innerHTML=bm;$('nk').focus();return}
+ bm=v.some(w=>w.k===K)?`${K} was already here with a different meaning. This meaning was added too.`:'';
+ v.push({k:K,r:esc($('nr').value.trim()),e:E});order=[];saveC();render();$('nk').focus()}
 function addBulk(){
- const lines=$('bulk').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean),have=new Set(cats[ci].v.map(w=>w.k));
- let added=0,dup=0;const bad=[];
+ const lines=$('bulk').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean),v=cats[ci].v;
+ const have=new Set(v.map(w=>dk(w.k,w.e))),ks=new Set(v.map(w=>w.k));
+ let added=0;const bad=[],dups=[],alts=[];
  for(const l of lines){
   let a=l.includes('|')?l.split('|'):l.includes('\t')?l.split('\t'):l.split(/\s*[,，]\s*/);
   a=a.map(x=>x.trim()).filter(x=>x!=='');
   if(a.length<2){bad.push(l);continue}
-  const k=a[0],r=a.length>2?a[1]:'',e=a.length>2?a.slice(2).join(', '):a[1];
-  if(have.has(esc(k))){dup++;continue}
-  cats[ci].v.push({k:esc(k),r:esc(r),e:esc(e)});have.add(esc(k));added++;
+  const k=a[0],r=a.length>2?a[1]:'',e=a.length>2?a.slice(2).join(', '):a[1],K=esc(k),E=esc(e);
+  if(have.has(dk(K,E))){dups.push(k);continue}
+  if(ks.has(K))alts.push(k);
+  v.push({k:K,r:esc(r),e:E});have.add(dk(K,E));ks.add(K);added++;
  }
  bt=bad.join('\n');
- bm=`Added ${added} word${added==1?'':'s'}.`+(dup?` Skipped ${dup} already in this tab.`:'')+(bad.length?` ${bad.length} line${bad.length==1?'':'s'} need a meaning and stayed in the box.`:'');
+ bm=`Added ${added} word${added==1?'':'s'}.`
+  +(dups.length?` Skipped ${dups.length} already in this tab: ${esc(dups.join(', '))}.`:'')
+  +(alts.length?` Same word with a new meaning added: ${esc(alts.join(', '))}.`:'')
+  +(bad.length?` ${bad.length} line${bad.length==1?'':'s'} need a meaning and stayed in the box.`:'');
  order=[];saveC();render();
 }
 function delWord(x){cats[ci].v.splice(x,1);order=[];saveC();render()}
