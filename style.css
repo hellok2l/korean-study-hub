@@ -49,3 +49,11 @@ textarea.bulk{width:100%;min-height:130px;font:inherit;padding:10px;border:1px s
 .bk{margin-top:18px}
 .bk h4{margin:0 0 4px}
 @media(max-width:480px){.kr{font-size:2.6rem}.opts{grid-template-columns:1fr}}
+/* clickable word rows with examples */
+.wl li{display:grid;grid-template-columns:1fr auto;align-items:center;padding:0}
+.wl .wr{display:grid;grid-template-columns:5.5em 1fr;gap:8px;align-items:center;text-align:left;width:100%;border:0;border-radius:0;background:transparent;padding:8px 14px}
+.wl .wr:hover{background:var(--bg)}
+.wl .ex{grid-column:1/-1;padding:8px 14px 12px;background:var(--bg);border-top:1px dashed var(--line)}
+.ex b,.exl b{font:600 1.1rem var(--kr);color:var(--ink)}
+.ex span{color:var(--mute);font-size:.9rem}
+.exl{margin-top:14px!important;padding-top:10px;border-top:1px dashed var(--line);font-size:.95rem}
